@@ -1,6 +1,6 @@
 # minimalistDashboard
 
-To det projected up and running:
+To get project up and running:
 1. clone rep
 2. install requirements.txt
 3. edit settings.ini file to match your environment variables
