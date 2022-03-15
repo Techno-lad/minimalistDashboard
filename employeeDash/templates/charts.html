@@ -1,0 +1,312 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<script>
+{% block jquery %}
+var endpoint = '/api/chart/data/'
+var defaultData,defaultData1,defaultData3,defaultData4,defaultData5,defaultData6,defaultData7 = []
+var labels,labels1,label3 = []
+
+var chrtType = "doughnut"
+var chrtType2 = "bar"
+
+
+$.ajax({
+    method: "GET",
+    url: endpoint,
+    success: function(data){
+        labels1 = data.labels1
+        defaultData1 = data.default1
+
+        labels = data.labels
+        defaultData = data.default
+
+        
+        labels3      = data.labels3
+        defaultData3 = data.default3
+        defaultData4 = data.default4
+        defaultData5 = data.default5
+        defaultData6 = data.default6
+        defaultData7 = data.default7
+
+
+        setChart()
+    },
+    error: function(error_data){
+        console.log("error")
+        console.log(error_data)
+    }
+})
+
+$(document).ready(function(){
+  $("#pieButton").click(function(){
+    $.ajax({success: function(result){
+        setChart(chrtType = "pie")
+        //location.reload();
+    }});
+  });
+});
+
+
+
+$(document).ready(function(){
+    $("#doughnutButton").click(function(){ //the hashtag indicates to trigger the function based on the corresponding id tag in this case doughnutButton
+      $.ajax({success: function(result){
+          setChart(chrtType = "doughnut")
+          //location.reload();
+      }});
+    });
+  });
+
+  $(document).ready(function(){
+    $("#horizon").click(function(){ //the hashtag indicates to trigger the function based on the corresponding id tag in this case doughnutButton
+      $.ajax({success: function(result){
+          setChart(chrtType2 = "horizontalBar")
+          //location.reload();
+      }});
+    });
+  });
+
+  $(document).ready(function(){
+    $("#bar").click(function(){ //the hashtag indicates to trigger the function based on the corresponding id tag in this case doughnutButton
+      $.ajax({success: function(result){
+          setChart(chrtType2 = "bar")
+          //location.reload();
+      }});
+    });
+  });
+
+
+function setChart(){
+    var ctx  = document.getElementById("myChart");
+    var ctx2 = document.getElementById("myChart2");
+    var ctx3 = document.getElementById("myChart3"); //new
+    var ctx4 = document.getElementById("myChart4"); //new
+
+    var myChart = new Chart(ctx, {
+    type: chrtType2,
+    //axis: 'y',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Supervisor location stats',
+            data: defaultData,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [
+              {
+                ticks: {
+                  beginAtZero: true,
+                },
+              },
+            ],
+          },
+    },
+});
+
+    var myChart = new Chart(ctx2, {
+    type: 'polarArea',
+    data: {
+        labels: labels1,
+        datasets: [{
+            label: 'Employee location stats',
+            data: defaultData1,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+var myChart = new Chart(ctx3, {
+    type: 'radar',
+    data: {
+        labels: labels3,
+        datasets: [{
+            label: 'TeamA',
+            data: defaultData3,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        },{
+            label: 'TeamB',
+            data: defaultData4,
+            backgroundColor: [
+            'rgba(54, 162, 235, 0.2)'
+            ],
+            borderColor: [
+            'rgba(255,99,132,1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1 //2nd end
+        },{
+            label: 'TeamC',
+            data: defaultData5,
+            backgroundColor: [
+            'rgba(255, 206, 86, 0.2)'
+            ],
+            borderColor: [
+            'rgba(255,99,132,1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1 //2nd end
+        },{
+            label: 'TeamD',
+            data: defaultData6,
+            backgroundColor: [
+            'rgba(75, 192, 192, 0.2)'
+            ],
+            borderColor: [
+            'rgba(255,99,132,1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1 //2nd end
+        },{
+            label: 'TeamE',
+            data: defaultData7,
+            backgroundColor: [
+            'rgba(153, 102, 255, 0.2)'
+            ],
+            borderColor: [
+            'rgba(255,99,132,1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1 //2nd end
+        },]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+var myChart = new Chart(ctx4, {
+    type: chrtType,
+    data: {
+        labels: labels1,
+        datasets: [{
+            label: 'Employee location stats',
+            data: defaultData1,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            hoverOffset: 4
+        }]
+    },
+});
+}
+// var ctx = document.getElementById("myChart");
+
+
+
+{% endblock %}
+</script>
+
+{% block content %}
+
+
+
+<div class='row'>
+    <div class='col-sm-12' url-endpoint='{% url "api-data" %}'>
+        
+        <h1><img src="{% static 'logo.png' %}" style="width:50px;height:50px;">istaPrint Metrics Dashboard</h1>
+        <div class='col-sm-6'>
+             <canvas id="myChart" width="1000" height="600"></canvas>
+        </div>
+        <div class='col-sm-6'>
+            <canvas id="myChart2" width="1000" height="600"></canvas>
+        </div> 
+    </div>   
+</div>
+<div class='row'>
+    <div class='col-sm-12' url-endpoint='{% url "api-data" %}'>
+        <div class='col-sm-6'>
+            <canvas id="myChart3" width="1000" height="600"></canvas>
+        </div>
+        <div class='col-sm-6'>
+            <canvas id="myChart4" width="1000" height="600"></canvas> 
+            <input type="radio" id="pieButton" name="age" ><label for="age1">Pie chart</label>
+            <input type="radio" id="doughnutButton" name="age" ><label for="age1">doughnut chart</label>
+        </div> 
+    </div>   
+</div>
+
+
+{% endblock content %}
+
+
